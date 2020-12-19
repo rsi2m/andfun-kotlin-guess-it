@@ -1,6 +1,7 @@
 package com.example.android.guesstheword.screens.game
 
 import android.util.Log
+import androidx.lifecycle.MutableLiveData
 import androidx.lifecycle.ViewModel
 
 class GameViewModel : ViewModel() {
@@ -11,11 +12,8 @@ class GameViewModel : ViewModel() {
         nextWord()
     }
 
-    // The current word
-    internal var word = ""
-
-    // The current score
-    internal var score = 0
+    internal val word = MutableLiveData<String>()
+    internal val score = MutableLiveData(0)
 
     // The list of words - the front of the list is the next word to guess
     private lateinit var wordList: MutableList<String>
@@ -70,12 +68,12 @@ class GameViewModel : ViewModel() {
     /** Methods for buttons presses **/
 
     internal fun onSkip() {
-        score--
+        score.value = score.value?.minus(1)
         nextWord()
     }
 
     internal fun onCorrect() {
-        score++
+        score.value = score.value?.plus(1)
         nextWord()
     }
 }
